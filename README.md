@@ -1,70 +1,216 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+/*
+node_modules
+public
+  favicon.ico
+  index.html
+  manifest.json
+  robots.txt
+  logo192.png
+  logo152.png
+src
+  assets/
+  components/
+  hooks/
+  pages/
+  styles/
+  App.css
+  App.test.js
+  App.tsx
+  index.css
+  index.tsx
+  logo.svg
+  reportWebVitals.ts
+  setupTests.ts
+.gitignore
+package-lock.json
+package.json
 
-## Available Scripts
+=====
+buat konfigurasi typescript
+npm install typescript @types/node @types/react @types/react-dom @types/jest --save-dev
 
-In the project directory, you can run:
+npx tsc --init
+create file baru = tsconfig.json
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src"
+  ]
+}
+*/
 
-### `npm start`
+===============================
+Roadmap singkat (overview)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Lesson 1 — Komponen, Props, State & Event (ini yang kita lakukan sekarang)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Lesson 2 — List & Key, Conditional Rendering
 
-### `npm test`
+Lesson 3 — useEffect & Fetch Data (API)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Lesson 4 — Router (multi page) + Link
 
-### `npm run build`
+Lesson 5 — Context / Global State sederhana
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Lesson 6 — Custom Hooks & struktur proyek
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Lesson 7 — Deployment (Vercel) dan optimasi kecil
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+====
 
-### `npm run eject`
+1
+src/components/Counter.tsx
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+import React, { useState } from 'react';
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+interface CounterProps {
+  initial?: number; // optional prop, default value possible
+  label?: string;
+}
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+const Counter: React.FC<CounterProps> = ({ initial = 0, label = 'Counter' }) => {
+  const [count, setCount] = useState<number>(initial);
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+  const reset = () => setCount(initial);
 
-## Learn More
+  return (
+    <div style={{ border: '1px solid #ddd', padding: 12, 
+    borderRadius: 8, display: 'inline-block' }}>
+      <h3>{label}</h3>
+      <p>Count: {count}</p>
+      <button onClick={decrement}>-</button>
+      <button onClick={increment} style={{ marginLeft: 8 }}>+</button>
+      <button onClick={reset} style={{ marginLeft: 8 }}>Reset</button>
+    </div>
+  );
+};
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+export default Counter;
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Penjelasan singkat:
 
-### Code Splitting
+interface CounterProps → mendefinisikan tipe untuk props.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+React.FC<CounterProps> → tipe fungsi komponen (boleh juga tulis (): JSX.Element).
 
-### Analyzing the Bundle Size
+useState<number>(initial) → memberi tahu TypeScript bahwa count adalah number.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Event handler seperti onClick tidak perlu diberi tipe secara eksplisit (inferred), tapi nanti kita akan lihat cara mengetik event lebih ketat.
+=====
 
-### Making a Progressive Web App
+src/App.tsx
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+import React from 'react';
+import Counter from './components/Counter';
 
-### Advanced Configuration
+function App(): JSX.Element {
+  return (
+    <div style={{ padding: 24 }}>
+      <h1>Belajar React + TypeScript</h1>
+      <Counter initial={5} label="Counter Utama" />
+      <div style={{ height: 12 }} />
+      <Counter initial={0} label="Counter Kedua" />
+    </div>
+  );
+}
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+export default App;
 
-### Deployment
+npm start
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+=====
+src/components/Greeting.tsx
 
-### `npm run build` fails to minify
+import React from 'react';
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+interface GreetingProps {
+  name: string;
+  onGreet?: (message: string) => void;
+}
+
+const Greeting: React.FC<GreetingProps> = ({ name, onGreet }) => {
+  const handleClick = () => {
+    const msg = `Hello, ${name}!`;
+    if (onGreet) onGreet(msg);
+    alert(msg);
+  };
+
+  return (
+    <div>
+      <p>Hi <strong>{name}</strong></p>
+      <button onClick={handleClick}>Greet</button>
+    </div>
+  );
+};
+
+export default Greeting;
+===
+App.tsx
+import Greeting from './components/Greeting';
+
+// di dalam return
+<Greeting name="Guitherez" onGreet={(m) => console.log('Greeted:', m)} />
+
+====
+Mengetik event handler
+Misal kamu punya input dan mau mengetik onChange:
+
+import React, { useState } from 'react';
+
+const NameInput: React.FC = () => {
+  const [text, setText] = useState<string>('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
+  return (
+    <div>
+      <input value={text} onChange={handleChange} placeholder="Type name" />
+      <p>Value: {text}</p>
+    </div>
+  );
+};
+
+export default NameInput;
+======
+
+latihan kecil
+
+5) Latihan kecil untuk kamu (5–15 menit)
+
+Buat komponen TodoInput.tsx:
+
+Satu input teks + tombol "Add".
+
+Ketika Add ditekan, tampilkan nilai input di bawah (sebagai daftar sederhana) — tanpa harus persist.
+
+Gunakan useState<string> dan React.FormEvent atau React.ChangeEvent.
+
+Tambahkan TodoInput ke App.tsx.
+
+Kalau butuh, tulis kodenya di sini dan aku koreksi.
+
+============
