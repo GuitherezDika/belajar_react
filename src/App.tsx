@@ -4,6 +4,7 @@ import Greeting from "./components/Greeting";
 import NameInput from "./components/NameInput";
 import TodoInput from "./components/TodoInput";
 import NameList from "./components/NameList";
+import UserList from "./components/UserList";
 
 function App() {
   return (<div style={{ padding: 24 }}>
@@ -18,6 +19,8 @@ function App() {
     <TodoInput />
     <div style={{ height: 12 }} />
     <NameList />
+    <div style={{ height: 12 }} />
+    <UserList />
   </div>);
 }
 
