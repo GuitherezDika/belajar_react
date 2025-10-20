@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 const TodoInput: React.FC = () => {
   const [text, setText] = useState('');
-  const [data, setData] = useState<String[]>([]);
+  const [data, setData] = useState<string[]>([]);
 
   const handleSave = () => {
     if (text.trim() !== '') {
