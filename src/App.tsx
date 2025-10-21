@@ -1,26 +1,27 @@
 import React from "react";
-import Counter from "./components/Counter";
-import Greeting from "./components/Greeting";
-import NameInput from "./components/NameInput";
-import TodoInput from "./components/TodoInput";
-import NameList from "./components/NameList";
-import UserList from "./components/UserList";
+import { Link, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Profile from "./pages/Profile";
 
 function App() {
   return (<div style={{ padding: 24 }}>
-    <h1>Belajar React + Typescript</h1>
-    <Counter initial={5} label="Counter Utama" />
-    <div style={{ height: 12 }} />
-    <Counter initial={0} label="Counter Kedua" />
-    <Greeting name="Guitherez" onGreet={(m) => console.log('Pesan dari anak:', m)} />
-    <div style={{ height: 12 }} />
-    <NameInput />
-    <div style={{ height: 12 }} />
-    <TodoInput />
-    <div style={{ height: 12 }} />
-    <NameList />
-    <div style={{ height: 12 }} />
-    <UserList />
+    <nav>
+      <Link to="/" >Home</Link>
+      <Link to="/about" >About</Link>
+      <Link to="/contact" >Contact</Link>
+      <Link to="/profile" >Profile</Link>
+
+    </nav>
+    <Routes>
+      <Route path="/" element={<Home/>} />
+      <Route path="/about" element={<About/>} />
+      <Route path="/contact" element={<Contact/>} />
+      <Route path="/profile" element={<Profile />} />
+
+      <Route path="*" element={<h2>404 Page Not Found</h2>} />
+    </Routes>
   </div>);
 }
 
